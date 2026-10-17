@@ -43,6 +43,12 @@ a {
   text-decoration: none;
 }
 
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: 3px;
+}
+
 button,
 input,
 select {
@@ -157,18 +163,27 @@ a {
   display: inline-flex;
   gap: 12px;
   align-items: center;
-  transition: all .25s ease;
+  transition: color .3s ease, background-color .3s ease, border-color .3s ease, transform .3s ease;
 }
 
 .header-cta:hover {
   background: var(--gold);
   border-color: var(--gold);
   color: var(--charcoal);
+  transform: translateY(-1px);
 }
 
 .mobile-menu,
 .mobile-nav {
   display: none;
+}
+
+.mobile-menu {
+  transition: color .25s ease, transform .25s ease;
+}
+
+.mobile-menu:active {
+  transform: scale(.96);
 }
 
 .hero {
@@ -272,11 +287,16 @@ h2 em {
   text-transform: uppercase;
   letter-spacing: .08em;
   cursor: pointer;
-  transition: transform .2s, background .2s;
+  transition: transform .35s cubic-bezier(0.16, 1, 0.3, 1), background-color .3s ease, border-color .3s ease;
 }
 
 .button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+}
+
+.button:active,
+.header-cta:active {
+  transform: translateY(0);
 }
 
 .button-light {
@@ -441,11 +461,11 @@ h2 {
   height: 100%;
   display: block;
   object-fit: cover;
-  transition: transform .7s cubic-bezier(.2, .65, .3, 1);
+  transition: transform .9s cubic-bezier(.16, 1, .3, 1);
 }
 
 .project-card article:hover .project-image-wrap img {
-  transform: scale(1.045);
+  transform: scale(1.035);
 }
 
 .project-number {
@@ -868,11 +888,78 @@ h2 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .amenity-card:hover .amenity-image-wrap img {
-  transform: scale(1.04);
+  transform: scale(1.035);
+}
+
+.project-image-wrap:focus-visible img,
+.amenity-card:focus-within .amenity-image-wrap img {
+  transform: scale(1.035);
+}
+
+.project-arrow {
+  transition: background-color .35s ease, color .35s ease, transform .45s cubic-bezier(.16, 1, .3, 1);
+}
+
+.project-image-wrap:hover .project-arrow,
+.project-image-wrap:focus-visible .project-arrow {
+  background: var(--gold);
+  transform: translate(-2px, -2px);
+}
+
+.hero-text-link svg {
+  transition: transform .4s cubic-bezier(.16, 1, .3, 1);
+}
+
+.hero-text-link:hover svg,
+.hero-text-link:focus-visible svg {
+  transform: translateY(3px);
+}
+
+@media (hover: none) {
+  .nav-link:hover {
+    color: rgba(255, 255, 255, .82);
+  }
+
+  .nav-link:hover .nav-link-indicator {
+    transform: scaleX(0);
+  }
+
+  .header-cta:hover {
+    background: rgba(7, 87, 68, 0.3);
+    border-color: rgba(198, 161, 109, 0.6);
+    color: white;
+  }
+
+  .project-card article:hover .project-image-wrap img,
+  .amenity-card:hover .amenity-image-wrap img {
+    transform: none;
+  }
+
+  .project-image-wrap:hover .project-arrow {
+    background: var(--paper);
+    transform: none;
+  }
+
+  .hero-text-link:hover svg {
+    transform: none;
+  }
+
+  .button:hover,
+  .header-cta:hover {
+    transform: none;
+  }
+
+  .button-light:hover {
+    background: #f0efe7;
+  }
+
+  .form-submit:hover {
+    background: var(--gold);
+  }
 }
 
 .amenity-body {
@@ -1352,7 +1439,6 @@ h2 {
   position: relative;
   width: 100%;
   overflow: hidden;
-  will-change: clip-path;
 }
 
 .image-reveal-wrap img {
@@ -1378,10 +1464,18 @@ h2 {
   top: -10%;
   left: 0;
   object-fit: cover;
-  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
   html {
     scroll-behavior: auto;
   }
